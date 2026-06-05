@@ -1,6 +1,8 @@
 """Minimal Django settings for the test suite."""
 
-SECRET_KEY = "test-only-not-secret"  # noqa: S105
+import os
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-test-only")
 
 INSTALLED_APPS = [
     "django_app_forge",
