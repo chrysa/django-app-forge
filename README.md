@@ -108,3 +108,19 @@ Tests, lint and build run through Docker or pre-commit — never directly on the
 ## License
 
 MIT © Anthony Gréau (chrysa)
+
+
+## Documentation map
+
+This repo follows the chrysa standardized documentation structure
+(`chrysa/shared-standards/templates/docs-structure`):
+
+- `docs/` — product, architecture, security, deployment, observability (stubs)
+- `ai/`, `prompts/` — AI assets & agent prompts
+- `schemas/` — JSON Schema data contracts
+- `workflows/` — end-to-end flow docs
+- `decisions/`, `postmortems/` — decision records & incident postmortems
+- `examples/` — reference “perfect” implementations (Python)
+- `tests/` — test scenario catalogues (see also the test suite)
+
+Files marked `status: stub` are placeholders to fill in.
