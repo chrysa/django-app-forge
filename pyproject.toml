@@ -55,7 +55,8 @@ python_classes = "Test*"
 line-length = 120
 # py313 (not py314): ruff format <=0.15.15 strips multi-except parens under py314 — restore when fixed upstream
 target-version = "py313"
-extend-exclude = [".pytest_cache/*", "*.egg-info/*", ".ruff_cache/*"]
+# examples/ holds an illustrative demo Django project, not library code.
+extend-exclude = [".pytest_cache/*", "*.egg-info/*", ".ruff_cache/*", "examples"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
