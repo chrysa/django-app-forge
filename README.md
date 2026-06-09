@@ -1,5 +1,7 @@
 # django-app-forge
 
+[![CI](https://github.com/chrysa/django-app-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/chrysa/django-app-forge/actions/workflows/ci.yml)
+
 Generate one or more Django apps with a **custom directory structure** from a
 single YAML file. A generic, declarative replacement for the per-project Python
 scaffolding scripts you copy around.
@@ -70,7 +72,9 @@ apps:
         content: "# pricing for {{ app_class }}"
 ```
 
-See [`apps.example.yaml`](apps.example.yaml) for a complete example.
+See [`apps.example.yaml`](apps.example.yaml) for a complete example, or
+[`examples/demo/`](examples/demo/) for a runnable Django project you can scaffold
+end to end.
 
 ### Template placeholders
 
