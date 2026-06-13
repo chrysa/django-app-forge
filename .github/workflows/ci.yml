@@ -1,106 +1,33 @@
 ---
+# Thin caller of the generalized chrysa lean CI (gate = pre-commit; reports → Sonar;
+# test matrix; sonar). Auto-versioning stays in release.yml (GitVersion).
+
 name: CI
 
 on:
     pull_request:
         branches: [main]
     push:
-        branches:
-            - main
-            - "feat/**"
-            - "fix/**"
-            - "chore/**"
-            - "ci/**"
+        branches: [main, "feat/**", "fix/**", "chore/**", "ci/**"]
     workflow_dispatch:
 
 permissions:
-    checks: write
     contents: read
+    checks: write
     pull-requests: write
-    statuses: write
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+    group: ci-${{ github.ref }}
     cancel-in-progress: true
 
 jobs:
-    pre-commit:
-        name: Pre-commit checks
-        runs-on: ubuntu-latest
-        timeout-minutes: 15
-        steps:
-            - uses: actions/checkout@v6.0.3
-
-            - uses: chrysa/github-actions/python-setup@v1.1.3
-              with:
-                  python-version: "3.14"
-                  cache: pip
-
-            - uses: pre-commit/action@v3.0.1
-              env:
-                  SKIP: no-commit-to-branch
-
-    lint:
-        name: Ruff + Mypy
-        runs-on: ubuntu-latest
-        timeout-minutes: 15
-        steps:
-            - uses: actions/checkout@v6.0.3
-
-            - name: Setup environment
-              uses: chrysa/github-actions/tool-setup@v1.1.3
-              with:
-                  python-version: "3.14"
-                  extras: "dev"
-
-            - name: Ruff checks
-              uses: chrysa/github-actions/ruff-check@v1.1.3
-              with:
-                  python-version: "3.14"
-                  latest-python: "3.14"
-                  sources: "django_app_forge tests"
-
-            - name: Mypy checks
-              uses: chrysa/github-actions/mypy-check@v1.1.3
-              with:
-                  python-version: "3.14"
-                  latest-python: "3.14"
-                  config-file: "pyproject.toml"
-                  sources: "django_app_forge"
-
-    test:
-        name: Docker tests
-        needs: lint
-        runs-on: ubuntu-latest
-        timeout-minutes: 20
-        steps:
-            - uses: actions/checkout@v6.0.3
-
-            - name: Run tests via Docker
-              run: make docker-test
-
-    sonar:
-        name: SonarCloud
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        needs: test
-        runs-on: ubuntu-latest
-        timeout-minutes: 15
-        permissions:
-            contents: read
-            pull-requests: read
-        steps:
-            - uses: actions/checkout@v6.0.3
-              with:
-                  fetch-depth: 0
-
-            - uses: chrysa/github-actions/sonar-scan-python@v1.1.3
-              with:
-                  python-version: "3.14"
-                  sonar-token: ${{ secrets.SONAR_TOKEN }}
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  project-key: chrysa_django-app-forge
-                  organization: chrysa
-                  project-name: django-app-forge
-                  sources: .
-                  tests: tests
-                  coverage-report: coverage.xml
+    ci:
+        uses: chrysa/github-actions/.github/workflows/ci-python.yml@main
+        with:
+            package: django_app_forge
+            sources: "django_app_forge tests"
+            project-key: chrysa_django-app-forge
+            project-name: django-app-forge
+            sonar-sources: .
+            typecheck-paths: django_app_forge
+        secrets: inherit
