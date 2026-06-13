@@ -20,14 +20,14 @@ test-cov: ## Run tests with coverage
 	pytest --cov=django_app_forge --cov-report=term-missing --cov-report=xml
 
 lint: ## Run ruff linter
-	ruff check django_app_forge tests
+	ruff check src/django_app_forge tests
 
 format: ## Auto-format code
-	ruff format django_app_forge tests
-	ruff check --fix django_app_forge tests
+	ruff format src/django_app_forge tests
+	ruff check --fix src/django_app_forge tests
 
 typecheck: ## Run mypy type checking
-	mypy django_app_forge
+	mypy src/django_app_forge
 
 docker-test: ## Run tests in Docker (CI-compatible)
 	docker build -f Dockerfile.test -t django-app-forge-test .

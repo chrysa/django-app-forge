@@ -1,71 +1,44 @@
-# django-app-forge — example structure file.
-#
-#   python manage.py forgeapps -c apps.example.yaml --dry-run
-#
-# Placeholders available in every file path/content and in dir names:
-#   {{ app_name }}    snake_case name        (e.g. billing)
-#   {{ app_class }}   PascalCase name        (e.g. Billing)
-#   {{ app_module }}  dotted import path     (e.g. apps.billing)
-#   {{ app_label }}   == app_name
-#   plus anything under the top-level `context:` block.
+apps:
+- name: billing
+  structure: ddd
+- files:
+  - content: '# Pricing service for {{ app_class }}.
 
-version: 1
-
-# Directory all apps are created under, relative to --root (default: cwd).
+      '
+    path: services/pricing.py
+  name: catalog
+  structure: ddd
 base_path: apps
-
-# Extra variables exposed to every template.
 context:
   author: chrysa
-
-# Named inline templates referenced by files via `template: <name>`.
-templates:
-  apps_py: |
-    from django.apps import AppConfig
-
-
-    class {{ app_class }}Config(AppConfig):
-        default_auto_field = "django.db.models.BigAutoField"
-        name = "{{ app_module }}"
-  models_py: |
-    from django.db import models
-
-    # {{ app_class }} domain models — authored by {{ author }}.
-  admin_py: |
-    from django.contrib import admin  # noqa: F401
-
-# Reusable structures referenced by apps via `structure: <name>`.
 structures:
   ddd:
     dirs:
-      - migrations
-      - tests
-      - services
+    - migrations
+    - services
+    - tests
     files:
-      - path: __init__.py
-        content: ""
-      - path: apps.py
-        template: apps_py
-      - path: models.py
-        template: models_py
-      - path: admin.py
-        template: admin_py
-      - path: migrations/__init__.py
-        content: ""
-      - path: tests/__init__.py
-        content: ""
-      - path: services/__init__.py
-        content: ""
+    - content: ''
+      path: __init__.py
+    - path: apps.py
+      template: apps_py
+    - path: models.py
+      template: models_py
+    - path: admin.py
+      template: admin_py
+    - content: ''
+      path: migrations/__init__.py
+    - content: ''
+      path: tests/__init__.py
+    - content: ''
+      path: services/__init__.py
+templates:
+  admin_py: 'from django.contrib import admin  # noqa: F401
 
-# The apps to generate.
-apps:
-  - name: billing
-    structure: ddd
-
-  - name: catalog
-    structure: ddd
-    # Per-app files extend (and override by path) the structure.
-    files:
-      - path: services/pricing.py
-        content: |
-          # Pricing service for {{ app_class }}.
+    '
+  apps_py: "from django.apps import AppConfig\n\n\nclass {{ app_class }}Config(AppConfig):\n\
+    \    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"{{ app_module\
+    \ }}\"\n"
+  models_py: "from django.db import models\n\n# {{ app_class }} domain models \u2014\
+    \ authored by {{ author }}.\n"
+version: 1
