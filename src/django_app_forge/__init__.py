@@ -7,6 +7,11 @@ management command and the ``AppConfig``.
 
 from __future__ import annotations
 
-__all__ = ["__version__"]
+from importlib.metadata import PackageNotFoundError, version
 
-__version__ = "0.1.0"
+try:
+    __version__ = version("django-app-forge")
+except PackageNotFoundError:  # editable install / not installed
+    __version__ = "0.0.0+unknown"
+
+__all__ = ["__version__"]

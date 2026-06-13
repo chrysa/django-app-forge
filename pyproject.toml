@@ -38,6 +38,7 @@ Homepage = "https://github.com/chrysa/django-app-forge"
 Repository = "https://github.com/chrysa/django-app-forge"
 
 [tool.setuptools.packages.find]
+where = ["src"]
 include = ["django_app_forge*"]
 
 [tool.setuptools.package-data]
@@ -45,7 +46,7 @@ django_app_forge = ["py.typed"]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "tests.settings"
-pythonpath = ["."]
+pythonpath = [".", "src"]
 testpaths = ["tests"]
 addopts = "-v --tb=short --cov=django_app_forge --cov-report=term-missing --cov-fail-under=85"
 python_files = "test_*.py"
