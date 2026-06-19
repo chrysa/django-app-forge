@@ -35,3 +35,7 @@ apps.example.yaml   # reference document
 - Existing files are SKIP by default; `--force` to overwrite. Never clobber by default.
 - Placeholders are resolved per app (global `context` + derived names), in file
   paths, file contents, and directory names.
+
+<!-- chrysa:standards-import:start -->
+@.chrysa/STANDARDS.md
+<!-- chrysa:standards-import:end -->
