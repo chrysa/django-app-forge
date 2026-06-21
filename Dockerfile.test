@@ -1,11 +1,18 @@
 # Test image — runs the full suite with coverage gate (CI parity).
 # Built and run by `make docker-test`.
+#
+# chrysa-codegen (chrysa-lib#113, lot L1) is pulled as a real git-ref dependency
+# declared in pyproject.toml; `git` is required for the git+https install.
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir --upgrade pip setuptools>=70 wheel
 

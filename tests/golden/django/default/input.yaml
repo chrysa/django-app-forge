@@ -1,0 +1,44 @@
+apps:
+- name: billing
+  structure: ddd
+- files:
+  - content: '# Pricing service for {{ app_class }}.
+
+      '
+    path: services/pricing.py
+  name: catalog
+  structure: ddd
+base_path: apps
+context:
+  author: chrysa
+structures:
+  ddd:
+    dirs:
+    - migrations
+    - services
+    - tests
+    files:
+    - content: ''
+      path: __init__.py
+    - path: apps.py
+      template: apps_py
+    - path: models.py
+      template: models_py
+    - path: admin.py
+      template: admin_py
+    - content: ''
+      path: migrations/__init__.py
+    - content: ''
+      path: tests/__init__.py
+    - content: ''
+      path: services/__init__.py
+templates:
+  admin_py: 'from django.contrib import admin  # noqa: F401
+
+    '
+  apps_py: "from django.apps import AppConfig\n\n\nclass {{ app_class }}Config(AppConfig):\n\
+    \    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"{{ app_module\
+    \ }}\"\n"
+  models_py: "from django.db import models\n\n# {{ app_class }} domain models \u2014\
+    \ authored by {{ author }}.\n"
+version: 1
