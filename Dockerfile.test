@@ -1,5 +1,10 @@
 # Test image — runs the full suite with coverage gate (CI parity).
 # Built and run by `make docker-test`.
+#
+# .codegen-local/ is a LOCAL PROOF harness for chrysa-codegen (chrysa-lib#113, lot L2).
+# It contains the L1 package source and is installed before django-app-forge so that
+# `chrysa_codegen` is importable. This directory is gitignored and must NOT be staged.
+# The real production dependency is the provisional git line in pyproject.toml.
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -8,6 +13,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 RUN pip install --no-cache-dir --upgrade pip setuptools>=70 wheel
+
+# Install the local chrysa-codegen proof harness first (L2 local-only, never published here).
+COPY .codegen-local/ ./.codegen-local/
+RUN pip install --no-cache-dir ./.codegen-local/
 
 COPY pyproject.toml README.md ./
 COPY src/ ./src/
