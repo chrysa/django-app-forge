@@ -20,6 +20,8 @@ classifiers = [
 dependencies = [
     "Django>=4.2",
     "PyYAML>=6.0",
+    # chrysa-codegen @ git+https://github.com/chrysa/chrysa-lib@<L1-merge>#subdirectory=packages/python/codegen  # pending L1 merge (chrysa-lib#113)
+    # TODO(chrysa-lib#113): replace the line above with a real version pin once L1 is merged and chrysa-codegen is published.
 ]
 
 [project.optional-dependencies]
