@@ -20,6 +20,7 @@ classifiers = [
 dependencies = [
     "Django>=4.2",
     "PyYAML>=6.0",
+    "chrysa-codegen @ git+https://github.com/chrysa/chrysa-lib@10b75e142c0969ea5987b9f5684a1a89cd30c993#subdirectory=packages/python/codegen",
 ]
 
 [project.optional-dependencies]

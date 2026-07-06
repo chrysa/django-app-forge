@@ -29,8 +29,9 @@ format: ## Auto-format code
 typecheck: ## Run mypy type checking
 	mypy src/django_app_forge
 
-docker-test: ## Run tests in Docker (CI-compatible)
-	docker build -f Dockerfile.test -t django-app-forge-test .
+docker-test: ## Run tests in Docker (CI parity; private chrysa-codegen fetch via D-0004 BuildKit secret)
+	GH_TOKEN="$${GH_TOKEN:-$${GITHUB_TOKEN:-$$(gh auth token 2>/dev/null)}}" \
+		DOCKER_BUILDKIT=1 docker build -f Dockerfile.test --secret id=ghtoken,env=GH_TOKEN -t django-app-forge-test .
 	docker run --rm django-app-forge-test
 
 build: ## Build wheel distribution package

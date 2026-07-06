@@ -1,22 +1,17 @@
-"""Name-derivation helpers (no Django, no third-party deps)."""
+"""Name-derivation helpers (no Django, no third-party deps).
+
+``to_snake`` and ``to_pascal`` are delegated to ``chrysa_codegen.naming``
+(chrysa-lib#113, lot L2). ``derived_context`` is django-specific and stays
+local: it builds the ``app_*`` template variables that each forge owns.
+"""
 
 from __future__ import annotations
 
 import re
 
-_SPLIT = re.compile(r"[_\-\s]+")
+from chrysa_codegen.naming import to_pascal, to_snake
 
-
-def to_snake(name: str) -> str:
-    """Normalize an app name to ``snake_case`` (``Api-Gateway`` -> ``api_gateway``)."""
-    parts = [p for p in _SPLIT.split(name.strip()) if p]
-    return "_".join(p.lower() for p in parts)
-
-
-def to_pascal(name: str) -> str:
-    """Convert an app name to ``PascalCase`` (``my_app`` -> ``MyApp``)."""
-    parts = [p for p in _SPLIT.split(name.strip()) if p]
-    return "".join(p[:1].upper() + p[1:] for p in parts)
+__all__ = ["derived_context", "to_pascal", "to_snake"]
 
 
 def derived_context(app_name: str, base_path: str) -> dict[str, str]:
