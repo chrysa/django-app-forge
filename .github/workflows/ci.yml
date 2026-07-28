@@ -26,22 +26,16 @@ on:
     pull_request:
         branches: [main]
     push:
-        branches:
-            - main
-            - "feat/**"
-            - "fix/**"
-            - "chore/**"
-            - "ci/**"
+        branches: [main, "feat/**", "fix/**", "chore/**", "ci/**"]
     workflow_dispatch:
 
 permissions:
-    checks: write
     contents: read
+    checks: write
     pull-requests: write
-    statuses: write
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+    group: ci-${{ github.ref }}
     cancel-in-progress: true
 
 jobs:
