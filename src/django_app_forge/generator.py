@@ -12,7 +12,6 @@ passes ``spec.apps`` as the unit collection.
 
 from __future__ import annotations
 
-from collections.abc import Iterable
 from pathlib import Path
 
 from chrysa_codegen.generator import (
