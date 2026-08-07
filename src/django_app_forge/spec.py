@@ -94,29 +94,39 @@ def _resolve_dirs(raw_dirs: Any, where: str) -> list[str]:
     return list(raw_dirs)
 
 
-def load_spec(data: Any) -> ProjectSpec:
-    """Validate a raw forge document and return a :class:`ProjectSpec`."""
-    data = _require_mapping(data, "document root")
-
+def _parse_version(data: dict[str, Any]) -> int:
     version = data.get("version", SUPPORTED_VERSION)
     if version != SUPPORTED_VERSION:
         raise SpecError(f"Unsupported version {version!r}; expected {SUPPORTED_VERSION}")
+    return version
 
+
+def _parse_base_path(data: dict[str, Any]) -> str:
     base_path = data.get("base_path", ".")
     if not isinstance(base_path, str):
         raise SpecError("base_path must be a string")
+    return base_path
 
-    global_context = data.get("context", {})
-    global_context = _require_mapping(global_context, "context")
-    context = {str(k): str(v) for k, v in global_context.items()}
 
+def _parse_context(data: dict[str, Any]) -> dict[str, str]:
+    global_context = _require_mapping(data.get("context", {}), "context")
+    return {str(k): str(v) for k, v in global_context.items()}
+
+
+def _parse_templates(data: dict[str, Any]) -> dict[str, str]:
     templates_raw = _require_mapping(data.get("templates", {}), "templates")
     templates: dict[str, str] = {}
     for name, body in templates_raw.items():
         if not isinstance(body, str):
             raise SpecError(f"templates.{name} must be a string")
         templates[str(name)] = body
+    return templates
 
+
+def _parse_structures(
+    data: dict[str, Any],
+    templates: dict[str, str],
+) -> dict[str, tuple[list[str], dict[str, FileSpec]]]:
     structures_raw = _require_mapping(data.get("structures", {}), "structures")
     structures: dict[str, tuple[list[str], dict[str, FileSpec]]] = {}
     for name, body in structures_raw.items():
@@ -125,47 +135,62 @@ def load_spec(data: Any) -> ProjectSpec:
             _resolve_dirs(body.get("dirs"), f"structures.{name}"),
             _resolve_files(body.get("files"), templates, f"structures.{name}"),
         )
+    return structures
 
+
+def _parse_app(
+    entry: Any,
+    loc: str,
+    templates: dict[str, str],
+    structures: dict[str, tuple[list[str], dict[str, FileSpec]]],
+) -> AppSpec:
+    entry = _require_mapping(entry, loc)
+    app_name = entry.get("name")
+    if not app_name or not isinstance(app_name, str):
+        raise SpecError(f"{loc} requires a non-empty string 'name'")
+
+    dirs: list[str] = []
+    files: dict[str, FileSpec] = {}
+
+    structure = entry.get("structure")
+    if structure is not None:
+        if structure not in structures:
+            raise SpecError(f"{loc} references unknown structure {structure!r}")
+        base_dirs, base_files = structures[structure]
+        dirs = list(base_dirs)
+        files = dict(base_files)
+
+    # Per-app dirs/files extend (and override by path) the structure.
+    for extra_dir in _resolve_dirs(entry.get("dirs"), loc):
+        if extra_dir not in dirs:
+            dirs.append(extra_dir)
+    files.update(_resolve_files(entry.get("files"), templates, loc))
+
+    return AppSpec(name=app_name, dirs=tuple(dirs), files=tuple(files.values()))
+
+
+def _parse_apps(
+    data: dict[str, Any],
+    templates: dict[str, str],
+    structures: dict[str, tuple[list[str], dict[str, FileSpec]]],
+) -> list[AppSpec]:
     apps_raw = data.get("apps")
     if not isinstance(apps_raw, list) or not apps_raw:
         raise SpecError("'apps' must be a non-empty list")
+    return [
+        _parse_app(entry, f"apps[{index}]", templates, structures)
+        for index, entry in enumerate(apps_raw)
+    ]
 
-    apps: list[AppSpec] = []
-    for index, entry in enumerate(apps_raw):
-        loc = f"apps[{index}]"
-        entry = _require_mapping(entry, loc)
-        app_name = entry.get("name")
-        if not app_name or not isinstance(app_name, str):
-            raise SpecError(f"{loc} requires a non-empty string 'name'")
 
-        dirs: list[str] = []
-        files: dict[str, FileSpec] = {}
-
-        structure = entry.get("structure")
-        if structure is not None:
-            if structure not in structures:
-                raise SpecError(f"{loc} references unknown structure {structure!r}")
-            base_dirs, base_files = structures[structure]
-            dirs = list(base_dirs)
-            files = dict(base_files)
-
-        # Per-app dirs/files extend (and override by path) the structure.
-        for extra_dir in _resolve_dirs(entry.get("dirs"), loc):
-            if extra_dir not in dirs:
-                dirs.append(extra_dir)
-        files.update(_resolve_files(entry.get("files"), templates, loc))
-
-        apps.append(
-            AppSpec(
-                name=app_name,
-                dirs=tuple(dirs),
-                files=tuple(files.values()),
-            )
-        )
-
+def load_spec(data: Any) -> ProjectSpec:
+    """Validate a raw forge document and return a :class:`ProjectSpec`."""
+    data = _require_mapping(data, "document root")
+    templates = _parse_templates(data)
+    structures = _parse_structures(data, templates)
     return ProjectSpec(
-        version=version,
-        base_path=base_path,
-        context=context,
-        apps=tuple(apps),
+        version=_parse_version(data),
+        base_path=_parse_base_path(data),
+        context=_parse_context(data),
+        apps=tuple(_parse_apps(data, templates, structures)),
     )
