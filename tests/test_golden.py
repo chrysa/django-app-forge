@@ -14,7 +14,6 @@ import hashlib
 import json
 from pathlib import Path
 
-import pytest
 import yaml
 
 from django_app_forge.generator import apply, plan
