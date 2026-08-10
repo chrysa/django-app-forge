@@ -32,7 +32,7 @@ repos:
     stages:
     - manual
 - repo: https://github.com/chrysa/pre-commit-tools
-  rev: v0.2.0-247
+  rev: v0.2.0-253
   hooks:
   - id: makefile-check
   - exclude: ^(\.github/|workflows/|templates/)
@@ -42,11 +42,14 @@ repos:
   - id: env-example-sync
   - id: adr-gate
   - id: debugger-detection
+    exclude: (^|/)tests?/|^(README\.md|docs/)
   - id: python-print-detection
+    exclude: (^|/)tests?/|^(README\.md|docs/)
   - id: python-pprint-detection
-    exclude: tests?/
+    exclude: (^|/)tests?/|^(README\.md|docs/)
   - id: no-bare-except
   - id: python-logger-detection
+    exclude: (^|/)tests?/|^(README\.md|docs/)
   - id: python-unreachable-code
   - id: no-hardcoded-localhost
     exclude: tests?/|\.test\.|\.spec\.
@@ -59,9 +62,10 @@ repos:
   - id: python-no-unittest-import
   - id: claude-assets-present
   - id: python-untyped-raise
-    exclude: ^tests?/
+    exclude: (^|/)tests?/
   - id: python-mutable-default
   - id: python-dispatch-ladder
+  - id: dockerfile-no-latest
 - repo: https://github.com/gitleaks/gitleaks
   rev: v8.30.1
   hooks:
@@ -84,6 +88,6 @@ repos:
     - revert
     - ci
 - repo: https://github.com/chrysa/guideline-checker
-  rev: v1.30.10
+  rev: v1.30.16
   hooks:
   - id: guideline-check

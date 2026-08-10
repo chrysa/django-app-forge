@@ -26,13 +26,13 @@ jobs:
             preReleaseTag: ${{ steps.gitversion.outputs.preReleaseTag }}
             should-release: ${{ steps.tag-check.outputs.should-release }}
         steps:
-            - uses: actions/checkout@v7.0.1
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   fetch-depth: 0
 
             - name: Determine version
               id: gitversion
-              uses: chrysa/github-actions/gitversion@v1.4.4
+              uses: chrysa/github-actions/gitversion@v1.6.0
 
             - name: Check if version tag already exists
               id: tag-check
@@ -57,7 +57,7 @@ jobs:
             contents: write
             id-token: write
         steps:
-            - uses: actions/checkout@v7.0.1
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                   fetch-depth: 0
                   token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
@@ -69,12 +69,12 @@ jobs:
 
             - name: Install git-cliff
               uses: taiki-e/install-action@3f99142a47f5f35fcd7322b74947248526d32622 # git-cliff
-
             - name: Generate changelog
               run: git-cliff -o CHANGELOG.md
-
             - name: Set up Python
               uses: actions/setup-python@v6
+            - name: Build & publish to PyPI
+              uses: chrysa/github-actions/publish-python-package@v1.6.0
               with:
                   python-version: "3.14"
 
