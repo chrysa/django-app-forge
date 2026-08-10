@@ -53,6 +53,9 @@ jobs:
         if: needs.version.outputs.should-release == 'true' && needs.version.outputs.preReleaseTag == ''
         runs-on: ubuntu-latest
         timeout-minutes: 20
+        permissions:
+            contents: write
+            id-token: write
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
@@ -65,16 +68,21 @@ jobs:
                   git config user.email 'greau.anthony+chrysa@gmail.com'
 
             - name: Install git-cliff
-              uses: taiki-e/install-action@e215f18e24d7f4b411833009234c054235f9447f # git-cliff
-
+              uses: taiki-e/install-action@3f99142a47f5f35fcd7322b74947248526d32622 # git-cliff
             - name: Generate changelog
               run: git-cliff -o CHANGELOG.md
-
+            - name: Set up Python
+              uses: actions/setup-python@v6
             - name: Build & publish to PyPI
               uses: chrysa/github-actions/publish-python-package@v1.6.0
               with:
-                  pypi-token: ${{ secrets.PYPI_TOKEN }}
-                  build-backend: setuptools
+                  python-version: "3.14"
+
+            - name: Build distribution
+              run: pipx run build
+
+            - name: Publish to PyPI
+              uses: pypa/gh-action-pypi-publish@release/v1
 
             - name: Tag & push release
               run: |
