@@ -6,7 +6,7 @@ declarative replacement for per-project Python scaffolding scripts.
 ## Layout
 
 ```
-django_app_forge/
+src/django_app_forge/
 ├── naming.py       # snake/Pascal + per-app derived context (no Django)
 ├── render.py       # {{ var }} substitution, fails loud on unknown vars (no Django)
 ├── spec.py         # parse + validate YAML doc into dataclasses (no Django)
@@ -19,7 +19,7 @@ apps.example.yaml   # reference document
 
 ## Conventions
 
-- Python ≥3.14, Django ≥4.2. Flat layout. Deps: Django, PyYAML.
+- Python ≥3.14, Django ≥4.2. `src/` layout (distributed library). Deps: Django, PyYAML.
 - The core (naming/render/spec/generator) MUST stay import-free of Django.
 - ruff (line 120), mypy strict (django-stubs), coverage `fail_under = 85`.
 - All tests/lint/build go through Docker or pre-commit — never on host.
