@@ -72,7 +72,7 @@ jobs:
             - name: Generate changelog
               run: git-cliff -o CHANGELOG.md
             - name: Set up Python
-              uses: actions/setup-python@v6
+              uses: actions/setup-python@v7
             - name: Build & publish to PyPI
               uses: chrysa/github-actions/publish-python-package@v1.8.0
               with:
