@@ -10,6 +10,19 @@ scaffolding scripts you copy around.
 pip install django-app-forge
 ```
 
+> **Private dependency.** The generation engine lives in `chrysa-codegen`, a
+> package of the **private** `chrysa/chrysa-lib` monorepo (pinned in
+> `pyproject.toml`). Installing therefore requires GitHub credentials with read
+> access to `chrysa/chrysa-lib`. Provide a token before installing:
+>
+> ```bash
+> git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+> pip install django-app-forge
+> ```
+>
+> In CI the token is passed as a BuildKit secret (`ghtoken`, see
+> `Dockerfile.test`); without it the install cannot clone `chrysa-lib` and fails.
+
 Add it to `INSTALLED_APPS`:
 
 ```python
@@ -93,10 +106,18 @@ emits a literal `{{ ... }}` into a file.
 
 ## Architecture
 
-The core (`naming`, `render`, `spec`, `generator`) is **import-free of Django**
-so it is unit-testable in isolation; `forgeapps` is a thin management-command
-wrapper over it. `plan()` computes the actions with no side effects, `apply()`
-touches the disk — which is what makes `--dry-run` exact.
+This repo is a **thin Django adapter** over the shared `chrysa-codegen` engine:
+
+- `spec` — parses/validates the YAML document into typed dataclasses (local, no Django).
+- `naming.derived_context` — builds the Django-specific `app_*` template variables (local).
+- `generator`, `render`, `naming.to_snake/to_pascal` — **re-exported from
+  `chrysa_codegen`**; the engine (`plan`/`apply`/`render`) lives there, not here.
+- `forgeapps` — the thin `manage.py` management-command wrapper.
+
+The whole surface stays **import-free of Django** except `apps.py` and the
+management command, so it is unit-testable in isolation. `plan()` computes the
+actions with no side effects, `apply()` touches the disk — which is what makes
+`--dry-run` exact (asserted by `test_dry_run_writes_nothing`).
 
 ## Development
 
