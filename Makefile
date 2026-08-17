@@ -43,3 +43,6 @@ pre-commit: ## Run all pre-commit checks
 clean: ## Remove build artifacts
 	rm -rf build dist *.egg-info .pytest_cache .ruff_cache .mypy_cache .coverage coverage.xml
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+
+.PHONY: ci
+ci: lint typecheck test  ## CI: run all checks (lint + typecheck + test)
