@@ -177,10 +177,7 @@ def _parse_apps(
     apps_raw = data.get("apps")
     if not isinstance(apps_raw, list) or not apps_raw:
         raise SpecError("'apps' must be a non-empty list")
-    return [
-        _parse_app(entry, f"apps[{index}]", templates, structures)
-        for index, entry in enumerate(apps_raw)
-    ]
+    return [_parse_app(entry, f"apps[{index}]", templates, structures) for index, entry in enumerate(apps_raw)]
 
 
 def load_spec(data: Any) -> ProjectSpec:

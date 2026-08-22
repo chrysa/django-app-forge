@@ -54,7 +54,6 @@ def test_golden_output_is_byte_identical(tmp_path: Path) -> None:
 
     assert not missing, f"Missing generated files: {sorted(missing)}"
     assert not extra, f"Unexpected extra files: {sorted(extra)}"
-    assert not drifted, (
-        f"Content drift detected in: {sorted(drifted)}\n"
-        + "\n".join(f"  {k}: expected={expected[k]} actual={actual[k]}" for k in sorted(drifted))
+    assert not drifted, f"Content drift detected in: {sorted(drifted)}\n" + "\n".join(
+        f"  {k}: expected={expected[k]} actual={actual[k]}" for k in sorted(drifted)
     )
