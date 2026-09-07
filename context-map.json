@@ -1,0 +1,46 @@
+{
+  "adrs": [],
+  "contracts": [
+    "schemas",
+    "standards"
+  ],
+  "ddd_level": "(not available)",
+  "dependencies": {
+    "python": [
+      "Django",
+      "PyYAML",
+      "chrysa-codegen",
+      "django-stubs",
+      "mypy",
+      "pytest",
+      "pytest-cov",
+      "pytest-django",
+      "ruff",
+      "types-PyYAML"
+    ]
+  },
+  "depends_on_shared_standards": true,
+  "description": "Generate Django apps with a custom structure from a YAML file.",
+  "entry_points": [],
+  "key_directories": [
+    ".claude",
+    ".github",
+    ".vscode",
+    "ai",
+    "decisions",
+    "docs",
+    "examples",
+    "legal",
+    "postmortems",
+    "prompts",
+    "schemas",
+    "scripts",
+    "src",
+    "standards",
+    "tests",
+    "workflows"
+  ],
+  "name": "django-app-forge",
+  "profiles": [],
+  "schema": "chrysa.context-map/1"
+}
