@@ -104,7 +104,6 @@ Generate Django apps with a custom structure from a YAML file.
     action-check.yml
     approved-label.yml
     auto-assign.yml
-    auto-update-pre-commit.yml
     ci.yml
     dependabot-auto-merge.yml
     detect-conflicts.yml
@@ -205,6 +204,7 @@ schemas/
   project.schema.json
   user.schema.json
 scripts/
+  gen_context_files.py
   quality_gate.py
 src/
   django_app_forge/
@@ -282,6 +282,7 @@ examples/perfect_schema.py — EXAMPLE — canonical pattern, copy & adapt.
 examples/perfect_serializer.py — EXAMPLE — canonical pattern, copy & adapt.
 examples/perfect_service.py — EXAMPLE — canonical pattern, copy & adapt.
 examples/perfect_viewset.py — EXAMPLE — canonical pattern, copy & adapt.
+scripts/gen_context_files.py — Generate the standardised per-repo context files from the repo's own content.
 scripts/quality_gate.py
 src/django_app_forge/__init__.py — django-app-forge — generate Django apps with a custom structure from YAML.
 src/django_app_forge/apps.py
