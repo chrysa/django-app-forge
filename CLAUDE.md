@@ -37,6 +37,20 @@ apps.example.yaml   # reference document
   paths, file contents, and directory names.
 
 
+## Documentation map (root docs — authored from the code)
+
+Project-specific docs live at the repo root and are the source of truth for this
+scaffolder. The generic `docs/`, `decisions/`, `schemas/`, `workflows/`,
+`prompts/`, `legal/` trees are unfilled docs-structure **boilerplate stubs** —
+see `REVIEW.md`.
+
+- `PRD.md` / `TRD.md` — product & technical requirements (REQ-PROD/REQ-TECH).
+- `ARCHITECTURE.md` — thin-adapter design, data flow, boundaries.
+- `REQUIREMENTS.md` — traceability matrix.
+- `CONSTRAINTS.md` · `DECISIONS.md` (ADR-DAF-00x) · `TESTING.md` ·
+  `SECURITY.md` · `GLOSSARY.md` · `REVIEW.md`.
+
+
 <!-- chrysa:standards:start · managed by distribute-standards.sh · DO NOT EDIT -->
 # chrysa — Transverse Standards (core)
 
