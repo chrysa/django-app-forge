@@ -34,7 +34,9 @@ Generate Django apps with a custom structure from a YAML file.
   hooks/
     check-no-env-files.cjs
     circuit-breaker.cjs
+    claude-config-drift.cjs
     frustration-detection.cjs
+    graphify-auto-update.cjs
     secret-scanner.cjs
     verifiable-thresholds.cjs
   rules/
@@ -71,11 +73,15 @@ Generate Django apps with a custom structure from a YAML file.
       gitnexus-guide/
       gitnexus-impact-analysis/
       gitnexus-refactoring/
+    golden-test-update/
+      SKILL.md
     hunt/
       SKILL.md
     implement/
       SKILL.md
     plan/
+      SKILL.md
+    spec-schema-check/
       SKILL.md
     spec/
       SKILL.md
@@ -124,6 +130,7 @@ Generate Django apps with a custom structure from a YAML file.
 .vscode/
   extensions.json
 AGENTS.md
+ARCHITECTURE.md
 CHANGELOG.md
 CLAUDE.md
 CODEOWNERS
@@ -224,6 +231,7 @@ standards/
     README.md
     accessibility.md
     agents.md
+    ai-orchestration.md
     api.md
     architecture.md
     backend-python.md
