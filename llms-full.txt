@@ -81,6 +81,8 @@ Generate Django apps with a custom structure from a YAML file.
       SKILL.md
     plan/
       SKILL.md
+    rollout-status/
+      SKILL.md
     spec-schema-check/
       SKILL.md
     spec/
@@ -95,6 +97,7 @@ Generate Django apps with a custom structure from a YAML file.
       SKILL.md
   thresholds.json
 .editorconfig
+.env.example
 .gitattributes
 .github/
   CODEOWNERS
