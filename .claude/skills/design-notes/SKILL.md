@@ -1,52 +1,21 @@
-# AGENTS.md — django-app-forge
+---
+name: design-notes
+description: "Procedure: Design notes. Use when this procedure is needed."
+---
 
-Guidance for AI coding agents working in this repository. See `CLAUDE.md` for the
-full project brief; this file is the agent-facing quick reference.
+- `plan()` has no side effects; `apply(dry_run=True)` reports actions but writes
+  nothing — `--dry-run` is therefore exact.
+- Existing files are SKIP by default; `--force` to overwrite. Never clobber by default.
+- Placeholders are resolved per app (global `context` + derived names), in file
+  paths, file contents, and directory names.
 
-## What this is
 
-A YAML-driven Django app scaffolder. The `forgeapps` management command reads a
-spec document and generates Django apps with a custom structure — a generic,
-declarative replacement for per-project Python scaffolding scripts.
+<!-- chrysa:standards:start · managed by distribute-standards.sh · DO NOT EDIT -->
+# chrysa — Transverse Standards (core)
 
-## Architecture rules (do not break)
+> The **slim always-on core**. The canonical, tool-agnostic source of truth is `standards/STANDARDS.chrysa.md`; the normative annexes live under `standards/annexes/`. Each rule below is a one-line pointer — its full text lives in the per-domain file named beside the heading (`standards/rules/<domain>.md`), read on demand.
 
-- The core (`naming.py`, `render.py`, `spec.py`, `generator.py`) MUST stay
-  import-free of Django. Only `apps.py` and `management/commands/forgeapps.py`
-  touch Django.
-- `plan()` is pure (no side effects); `apply(dry_run=True)` reports actions but
-  writes nothing — keep `--dry-run` exact.
-- Existing files are SKIP by default; `--force` overwrites. Never clobber by default.
-
-## Always do
-
-- Run tests, lint, type-check, and build through **Docker or pre-commit only** —
-  never on the host. Use `make docker-test`, `make lint`, `make typecheck`,
-  `make test-cov`.
-- Keep code, comments, docs, commits, and PRs in **English**.
-- Conventional commits (feat/fix/chore/docs/refactor/test/build/ci) — the changelog
-  and version bump are derived from them (`cliff.toml`, `GitVersion.yml`).
-- mypy strict (django-stubs), ruff line length 120, coverage `fail_under = 85`.
-
-## Never do
-
-- Never add a Django import to the core modules.
-- Never run `pytest` / `ruff` / `mypy` directly on the host.
-- Never overwrite generated files without `--force` semantics in the generator.
-
-## Resources
-
-| Task | Where |
-|------|-------|
-| Project brief & layout | `CLAUDE.md` |
-| Reference spec document | `apps.example.yaml` |
-| Commands | `Makefile` (`make help`) |
-| Standards backlog | issue #31 |
-
-<!-- chrysa:standards-agents:start · generated · DO NOT EDIT -->
-# chrysa standards — agent view (generated)
-
-> The same rules as `CLAUDE.md`, for any AGENTS.md-aware tool. Detail loads on demand from `standards/rules/<domain>.md`; the canon is `standards/STANDARDS.chrysa.md`.
+**Where an annexe and the canon disagree, the canon wins.**
 
 ### Governance, language & compliance · `standards/rules/governance.md`
 - Normative annexes
@@ -132,6 +101,14 @@ declarative replacement for per-project Python scaffolding scripts.
 - Quality gates
 - Error handling pattern (all automations)
 
+### Product surfaces · `standards/rules/product.md`
+- A public web surface is legally compliant, consent-respecting, and operable — before it ships
+- Setup wizard & config panel
+- A game is DRM-free and fully playable solo offline
+- Every product that is operated ships a management backoffice
+- If a user can supply a file, the product accepts an upload
+- A floating assistant where it earns its place — never as decoration
+
 ### Backend Python · `standards/rules/backend-python.md`
 - Python packaging — `pyproject.toml` is the single source of truth
 - Python is written object-oriented, one class per file
@@ -161,13 +138,6 @@ declarative replacement for per-project Python scaffolding scripts.
 - `.dockerignore` mandatory & exhaustive
 - Container-runtime policy
 
-### Product surfaces · `standards/rules/product.md`
-- Setup wizard & config panel
-- A game is DRM-free and fully playable solo offline
-- Every product that is operated ships a management backoffice
-- If a user can supply a file, the product accepts an upload
-- A floating assistant where it earns its place — never as decoration
-
 ### Design system · `standards/rules/design.md`
 - Design system
 
@@ -179,4 +149,7 @@ declarative replacement for per-project Python scaffolding scripts.
 - Release & changelog config (canonical)
 - GitHub Actions (reuse first · custom actions centralised · thin workflows)
 - Pre-commit & git hooks (native, via pre-commit.com — never wrapped in make)
-<!-- chrysa:standards-agents:end -->
+
+### Local AI orchestration & local-first · `standards/rules/ai-orchestration.md`
+- AI orchestration & local-first
+<!-- chrysa:standards:end -->

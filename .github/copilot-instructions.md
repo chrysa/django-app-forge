@@ -188,8 +188,6 @@ All contributors and automation must comply with these rules.
 - Agent actions are governed
 - An AI feature is evaluated, not just shipped
 - An agent writes only where the owner owns
-- A retryable operation proves the retry has no external effects
-- A mass-mutation batch returns the explicit list of what it changed
 
 ### Security, identity & sessions · `standards/rules/security.md`
 - Per-person data implies a user account — no exceptions dressed up as simplicity
@@ -213,14 +211,6 @@ All contributors and automation must comply with these rules.
 - A cache is a correctness contract, not a sprinkle of speed
 - Quality gates
 - Error handling pattern (all automations)
-
-### Product surfaces · `standards/rules/product.md`
-- A public web surface is legally compliant, consent-respecting, and operable — before it ships
-- Setup wizard & config panel
-- A game is DRM-free and fully playable solo offline
-- Every product that is operated ships a management backoffice
-- If a user can supply a file, the product accepts an upload
-- A floating assistant where it earns its place — never as decoration
 
 ### Backend Python · `standards/rules/backend-python.md`
 - Python packaging — `pyproject.toml` is the single source of truth
@@ -251,6 +241,13 @@ All contributors and automation must comply with these rules.
 - `.dockerignore` mandatory & exhaustive
 - Container-runtime policy
 
+### Product surfaces · `standards/rules/product.md`
+- Setup wizard & config panel
+- A game is DRM-free and fully playable solo offline
+- Every product that is operated ships a management backoffice
+- If a user can supply a file, the product accepts an upload
+- A floating assistant where it earns its place — never as decoration
+
 ### Design system · `standards/rules/design.md`
 - Design system
 
@@ -262,7 +259,4 @@ All contributors and automation must comply with these rules.
 - Release & changelog config (canonical)
 - GitHub Actions (reuse first · custom actions centralised · thin workflows)
 - Pre-commit & git hooks (native, via pre-commit.com — never wrapped in make)
-
-### Local AI orchestration & local-first · `standards/rules/ai-orchestration.md`
-- AI orchestration & local-first
 <!-- chrysa:standards-copilot:end -->

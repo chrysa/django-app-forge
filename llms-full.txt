@@ -9,6 +9,7 @@ Generate Django apps with a custom structure from a YAML file.
 
 .claude/
   agents/
+    code-reviewer.md
     general-backend-developer.md
     general-code-quality-debugger.md
     general-devops.md
@@ -19,22 +20,17 @@ Generate Django apps with a custom structure from a YAML file.
     general-solution-architect.md
     general-technical-project-lead.md
     general-technical-writer.md
+    security-auditor.md
+    test-runner.md
   ape/
     README.md
     ape-transform-v2.md
     ape_hook.py
-  commands/
-    adr-new.md
-    commit.md
-    custom-init.md
-    help-commands.md
-    issue.md
-    reviewpr.md
-    test.md
   hooks/
     check-no-env-files.cjs
     circuit-breaker.cjs
     claude-config-drift.cjs
+    format.py
     frustration-detection.cjs
     graphify-auto-update.cjs
     secret-scanner.cjs
@@ -44,6 +40,8 @@ Generate Django apps with a custom structure from a YAML file.
   settings.json
   skills/
     accessibility/
+      SKILL.md
+    adr-new/
       SKILL.md
     agent-patterns/
       SKILL.md
@@ -58,9 +56,15 @@ Generate Django apps with a custom structure from a YAML file.
       scripts/
     clean-architecture/
       SKILL.md
+    commit/
+      SKILL.md
     contract-testing/
       SKILL.md
     council/
+      SKILL.md
+    custom-init/
+      SKILL.md
+    design-notes/
       SKILL.md
     dockerfile-multistage/
       SKILL.md
@@ -75,11 +79,19 @@ Generate Django apps with a custom structure from a YAML file.
       gitnexus-refactoring/
     golden-test-update/
       SKILL.md
+    help-commands/
+      SKILL.md
     hunt/
       SKILL.md
     implement/
       SKILL.md
+    issue/
+      SKILL.md
     plan/
+      SKILL.md
+    review-changes/
+      SKILL.md
+    reviewpr/
       SKILL.md
     rollout-status/
       SKILL.md
@@ -88,6 +100,8 @@ Generate Django apps with a custom structure from a YAML file.
     spec/
       SKILL.md
     standards-authoring/
+      SKILL.md
+    test/
       SKILL.md
     testing-pytest/
       SKILL.md
@@ -284,6 +298,7 @@ version: 0.1.0
 ## Modules
 
 .claude/ape/ape_hook.py
+.claude/hooks/format.py
 examples/demo/demo_project/__init__.py
 examples/demo/demo_project/settings.py — Minimal Django settings for the django-app-forge demo project.
 examples/demo/demo_project/urls.py — URL configuration for the demo project (empty — this demo is command-focused).
